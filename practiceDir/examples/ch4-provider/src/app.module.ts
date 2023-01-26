@@ -6,10 +6,11 @@ import { BaseService } from './base-service';
 import { ServiceA } from './service-A';
 import { ServiceB } from './service-B';
 import { UsersModule } from './users/users.module';
+import { EmailService } from './email/email.service';
 
 @Module({
   controllers: [ApiController, AppController],
-  providers: [AppService, BaseService, ServiceA, ServiceB],
+  providers: [AppService, BaseService, ServiceA, ServiceB, EmailService],
   imports: [UsersModule],
 })
 export class AppModule { }

@@ -2,9 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpCode, NotFo
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import {UserInfo} from "os";
 
 @Controller('users')
+// 컨트롤러는 비즈니스 로직을 직접 수행하지 않음
 export class UsersController {
+  // 프로바이더를 컨트롤러에 주입하여 프로바이더에서 비즈니스 로직 수행
   constructor(private readonly usersService: UsersService) { }
 
   @Post()
@@ -65,5 +68,26 @@ export class UsersController {
   ) {
     return `userId: ${userId}, memoId: ${memoId}`;
   }
+
+  @Post('/email-verify')
+  async verifyEmail(@Query() dto): Promise<string>{
+    const { signupVerifyToken} = dto
+
+    return await this.usersService.verifyEmail(signupVerifyToken)
+  }
+
+  @Post('login')
+  async login(@Body() dto): Promise<string>{
+    const {email, password} = dto
+
+    return await this.usersService.login(email,password)
+  }
+
+  /*
+  @Get('/:id')
+  async getUserInfo(@Param('id') userId:string):Promise<UserInfo>{
+    return await this.usersService.getUserInfo(userId)
+  }
+  */
 
 }
